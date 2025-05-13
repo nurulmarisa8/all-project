@@ -1,5 +1,4 @@
 {
-    "java.debug.settings.onBuildFailureProceed": true,
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "c:\\Users\\nurul\\Downloads\\openjfx-24.0.1_windows-x64_bin-sdk\\javafx-sdk-24.0.1\\lib\\javafx.base.jar",
@@ -13,5 +12,6 @@
         "c:\\Users\\nurul\\Downloads\\openjfx-24.0.1_windows-x64_bin-sdk\\javafx-sdk-24.0.1\\lib\\jdk.jsobject.jar",
         "c:\\Users\\nurul\\Downloads\\openjfx-24.0.1_windows-x64_bin-sdk\\javafx-sdk-24.0.1\\lib\\jfx.incubator.input.jar",
         "c:\\Users\\nurul\\Downloads\\openjfx-24.0.1_windows-x64_bin-sdk\\javafx-sdk-24.0.1\\lib\\jfx.incubator.richtext.jar"
+
     ]
 }
