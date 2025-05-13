@@ -1,3 +1,4 @@
+// Kelas abstrak
 abstract class OverRiddingMahasiswa {
     protected String nama;
     protected String nim;
