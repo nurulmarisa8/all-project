@@ -1,15 +1,12 @@
 import javax.swing.*;
-import javax.swing.border.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class TextSearchFrame extends JFrame {
 
-    // Ubah lebar field agar lebih pendek
     private JTextField folderPathField = new JTextField(15);
     private JTextField keywordField = new JTextField(15);
     private DefaultTableModel tableModel;
@@ -57,7 +54,6 @@ public class TextSearchFrame extends JFrame {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.NONE;
 
-        // Baris 1: Folder
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 0;
@@ -66,7 +62,6 @@ public class TextSearchFrame extends JFrame {
         gbc.gridx = 1;
         inputPanel.add(folderPathField, gbc);
 
-        // Baris 2: Cari Teks
         gbc.gridx = 0;
         gbc.gridy = 1;
         inputPanel.add(searchBtn, gbc);
@@ -74,17 +69,14 @@ public class TextSearchFrame extends JFrame {
         gbc.gridx = 1;
         inputPanel.add(keywordField, gbc);
 
-        // Label instruksi
         JLabel instruksiLabel = new JLabel("Masukkan kata kunci, lalu klik Cari Teks", SwingConstants.CENTER);
 
-        // Tabel hasil
         tableModel = new DefaultTableModel(new String[]{"Nama File", "Teks/Kalimat Mengandung Kata"}, 0);
         resultTable = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(resultTable);
         scrollPane.setPreferredSize(new Dimension(600, 200));
         scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Hasil Pencarian"));
 
-        // Panel tengah (identitas + input)
         JPanel tengahPanel = new JPanel();
         tengahPanel.setLayout(new BoxLayout(tengahPanel, BoxLayout.Y_AXIS));
         tengahPanel.add(identityPanel);
@@ -92,11 +84,9 @@ public class TextSearchFrame extends JFrame {
         tengahPanel.add(inputPanel);
         tengahPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Tambahkan garis pemisah
         JSeparator separator1 = new JSeparator();
         JSeparator separator2 = new JSeparator();
 
-        // Layout utama
         setLayout(new BorderLayout(10, 10));
         add(titlePanel, BorderLayout.NORTH);
         add(separator1, BorderLayout.BEFORE_FIRST_LINE);
@@ -105,7 +95,6 @@ public class TextSearchFrame extends JFrame {
         add(separator2, BorderLayout.AFTER_LAST_LINE);
         add(scrollPane, BorderLayout.PAGE_END);
 
-        // Action listeners
         folderBtn.addActionListener(_ -> chooseFolder());
         searchBtn.addActionListener(_ -> searchKeyword());
 
@@ -122,33 +111,55 @@ public class TextSearchFrame extends JFrame {
     }
 
     private void searchKeyword() {
-        tableModel.setRowCount(0); // Bersihkan hasil sebelumnya
+        tableModel.setRowCount(0); 
         if (selectedFolder == null || keywordField.getText().trim().isEmpty()) return;
-
-        Queue<File> queue = new LinkedList<>();
-        queue.add(selectedFolder);
 
         String keyword = keywordField.getText().toLowerCase();
 
-        while (!queue.isEmpty()) {
-            File current = queue.poll();
-            if (current.isDirectory()) {
-                File[] files = current.listFiles();
-                if (files != null) {
-                    for (File f : files) queue.add(f);
-                }
-            } else if (current.getName().endsWith(".txt")) {
-                try (BufferedReader br = new BufferedReader(new FileReader(current))) {
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        if (line.toLowerCase().contains(keyword)) {
-                            tableModel.addRow(new Object[]{current.getName(), line.trim()});
+
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+        SwingWorker<Void, Object[]> worker = new SwingWorker<>() {
+            @Override
+            protected Void doInBackground() {
+                Queue<File> queue = new LinkedList<>();
+                queue.add(selectedFolder);
+
+                while (!queue.isEmpty()) {
+                    File current = queue.poll();
+                    if (current.isDirectory()) {
+                        File[] files = current.listFiles();
+                        if (files != null) {
+                            for (File f : files) queue.add(f);
+                        }
+                    } else if (current.getName().endsWith(".txt")) {
+                        try (BufferedReader br = new BufferedReader(new FileReader(current))) {
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                if (line.toLowerCase().contains(keyword)) {
+                                    publish(new Object[]{current.getName(), line.trim()});
+                                }
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
                         }
                     }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void process(java.util.List<Object[]> chunks) {
+                for (Object[] row : chunks) {
+                    tableModel.addRow(row);
                 }
             }
-        }
+
+            @Override
+            protected void done() {
+                setCursor(Cursor.getDefaultCursor());
+            }
+        };
+        worker.execute();
     }
 }
