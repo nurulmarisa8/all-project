@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.beautra.controller.AdminDashboardController">
+
+    <top>
+        <Label text="Admin Dashboard" style="-fx-font-size: 24px; -fx-padding: 10;"/>
+    </top>
+
+    <center>
+        <VBox spacing="10" padding="10">
+            <TableView fx:id="usersTable" prefHeight="200" />
+            <TableView fx:id="productsTable" prefHeight="200" />
+            <HBox spacing="10">
+                <Button text="Hapus User" onAction="#handleDeleteUser"/>
+                <Button text="Hapus Produk" onAction="#handleDeleteProduct"/>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

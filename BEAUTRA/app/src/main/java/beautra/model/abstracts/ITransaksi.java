@@ -1,5 +1,5 @@
-package beautra.model.abstrak;
+package beautra.model.abstracts;
 
-public class ITransaksi {
-	
+public interface ITransaksi {
+    void prosesPembayaran();
 }

@@ -1,21 +1,27 @@
-package beautra;
+package beautra.util;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class App extends Application {
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
-        primaryStage.setTitle("Beautra E-Commerce");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+import java.io.IOException;
+
+public class App {
+    private static Stage primaryStage;
+
+    public static void setPrimaryStage(Stage stage) {
+        primaryStage = stage;
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    public static void changeScene(String fxmlPath, String title) {
+        try {
+            Parent root = FXMLLoader.load(App.class.getResource(fxmlPath));
+            primaryStage.setTitle(title);
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

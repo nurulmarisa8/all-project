@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.beautra.controller.CartController" padding="10">
+
+    <Label text="Keranjang Belanja" style="-fx-font-size: 24px;" />
+
+    <ListView fx:id="cartListView" prefHeight="300" />
+
+    <HBox spacing="10">
+        <Button text="Hapus Item" onAction="#handleRemoveItem"/>
+        <Button text="Checkout" onAction="#handleCheckout"/>
+    </HBox>
+
+</VBox>

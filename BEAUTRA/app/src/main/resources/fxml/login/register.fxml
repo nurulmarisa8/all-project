@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.beautra.controller.RegisterController" alignment="CENTER" padding="20">
+
+    <Label text="Register" style="-fx-font-size: 24px;"/>
+    <TextField fx:id="fullnameField" promptText="Nama Lengkap"/>
+    <TextField fx:id="emailField" promptText="Email"/>
+    <TextField fx:id="phoneField" promptText="No HP"/>
+    <PasswordField fx:id="passwordField" promptText="Password"/>
+    <ChoiceBox fx:id="genderChoiceBox">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Laki-laki"/>
+                <String fx:value="Perempuan"/>
+                <String fx:value="Lainnya"/>
+            </FXCollections>
+        </items>
+    </ChoiceBox>
+    <TextArea fx:id="addressField" promptText="Alamat lengkap" prefRowCount="3"/>
+    <Button text="Daftar" onAction="#handleRegister"/>
+
+</VBox>
