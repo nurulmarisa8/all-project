@@ -4,73 +4,53 @@ import model.CartItem;
 import model.Order;
 import model.Product;
 import util.JsonUtil;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
 
 public class OrderService {
     private static final String FILE_PATH = "src/main/resources/data/orders.json";
 
-    public void createOrder(List<CartItem> cart, String buyerId) {
-        List<Order> orders = JsonUtil.readJson(FILE_PATH, Order.class);
-        ProductService productService = new ProductService();
+    // Di dalam kelas OrderService.java
 
-        // Validasi dan update stok produk
-        List<CartItem> validItems = new ArrayList<>();
-        for (CartItem ci : cart) {
-            Product product = productService.getProductById(ci.getProductId());
-            if (product != null && product.getStock() >= ci.getQuantity()) {
-                // Update stok produk
-                Product updatedProduct = new Product(
-                        product.getId(),
-                        product.getName(),
-                        product.getCategory(),
-                        product.getBrand(),
-                        product.getDescription(),
-                        product.getPrice(),
-                        product.getStock() - ci.getQuantity(), // Kurangi stok
-                        product.getImage(),
-                        product.getSellerId()
-                );
+public void createOrder(List<CartItem> cart, String buyerId) {
+        // Baca daftar pesanan yang sudah ada
+        List<Order> orders = getAllOrders(); // getAllOrders() sekarang mengembalikan List<Order>
+        
+        // Hitung total harga dari keranjang
+        double total = cart.stream()
+                .mapToDouble(item -> item.getPrice() * item.getQuantity())
+                .sum();
 
-                // Update produk di database
-                List<Product> allProducts = productService.getAllProducts();
-                for (int i = 0; i < allProducts.size(); i++) {
-                    if (allProducts.get(i).getId().equals(product.getId())) {
-                        productService.updateProduct(i, updatedProduct);
-                        break;
-                    }
-                }
-
-                // Menambahkan produk yang valid
-                validItems.add(new CartItem(ci.getProductId(), ci.getQuantity(), product.getPrice()));
-            }
-        }
-
-        if (validItems.isEmpty()) {
-            throw new RuntimeException("Tidak ada produk yang tersedia atau stok tidak mencukupi!");
-        }
-
-        // Membuat order baru
+        // Buat SATU objek Order baru yang berisi list CartItem
         Order newOrder = new Order(
-                "ORD-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase(),
+                "ORD-" + java.util.UUID.randomUUID().toString().substring(0, 8).toUpperCase(),
                 buyerId,
-                validItems,
-                "", // Note
-                "", // Voucher
-                "JNE", // Shipping
-                "COD", // Payment method
-                validItems.stream().mapToDouble(ci -> ci.getPrice() * ci.getQuantity()).sum(), // Total harga
-                "pending", // Status
-                java.time.LocalDateTime.now().toString() // Timestamp
+                cart, // Masukkan seluruh keranjang ke sini
+                total,
+                "paid", // Status awal
+                java.time.LocalDateTime.now().toString(),
+                "COD" // Metode pembayaran default
         );
 
-        // Menambahkan order ke daftar orders
+        // Tambahkan pesanan baru ke daftar
         orders.add(newOrder);
+
+        // Tulis kembali seluruh daftar pesanan ke file JSON
         JsonUtil.writeJson(FILE_PATH, orders);
-        
+
+        // --- Logika pengurangan stok ---
+        ProductService productService = new ProductService();
+        for (CartItem item : cart) {
+            Product product = productService.getProductById(item.getProductId());
+            if (product != null) {
+                int newStock = product.getStock() - item.getQuantity();
+                product.setStock(newStock);
+                // Panggil update dengan ID produk, ini sudah benar
+                productService.updateProduct(product.getId(), product);
+            }
+        }
     }
+
 
 
     // Method untuk mengambil semua orders
@@ -87,10 +67,5 @@ public class OrderService {
             }
         }
         return null;
-    }
-
-    // Method untuk menghitung total dari daftar pesanan
-    public double calculateTotal(List<CartItem> cart) {
-        return cart.stream().mapToDouble(ci -> ci.getPrice() * ci.getQuantity()).sum();
     }
 }

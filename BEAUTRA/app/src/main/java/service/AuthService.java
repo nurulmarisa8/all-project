@@ -47,8 +47,11 @@ public class AuthService {
         JsonUtil.writeJson(FILE_PATH, users);
     }
 
-    public User findByEmail(String email) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByEmail'");
-    }
+    public User getUserById(String userId) {
+    List<User> users = getAllUsers();
+    return users.stream()
+            .filter(user -> user.getId().equals(userId))
+            .findFirst()
+            .orElse(null);
+}
 }

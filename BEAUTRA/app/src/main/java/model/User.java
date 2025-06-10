@@ -29,4 +29,10 @@ public class User {
     public String getGender() { return gender; }
     public String getAddress() { return address; }
     public String getRole() { return role; }
+
+
+    public void setId(String id) { this.id = id; }
 }
+
+    
+

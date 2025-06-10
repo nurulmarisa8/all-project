@@ -42,7 +42,7 @@ public class ProductService {
             .orElse(null);
     }
 
-    public void updateProduct(int index, Product product) {
+    public void updateProduct(String i2, Product product) {
         List<Product> products = getAllProducts();
     for (int i = 0; i < products.size(); i++) {
         if (products.get(i).getId().equals(product.getId())) {

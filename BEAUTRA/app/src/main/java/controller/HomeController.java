@@ -1,187 +1,215 @@
 package controller;
 
-import beautra.MainApp; // Pastikan ada MainApp.currentUser
+import beautra.MainApp;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.Label;
-import model.Product;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import model.CartItem;
+import model.Product;
 import service.ProductService;
+import util.AlertUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
-import javafx.stage.Modality;
 
 public class HomeController {
-    @FXML private ListView<String> productList;
+
     @FXML private TextField searchField;
     @FXML private FlowPane productGrid;
     @FXML private Button forYouBtn, skinCareBtn, bodyCareBtn, hairCareBtn, makeUpBtn;
     @FXML private Button cartIconBtn;
-    @FXML private Button logoutBtn; 
+    @FXML private Button logoutBtn;
 
     private final ProductService productService = new ProductService();
     private List<Product> allProducts;
-
     private final List<CartItem> cart = new ArrayList<>();
 
     @FXML
     public void initialize() {
         allProducts = productService.getAllProducts();
+        searchField.textProperty().addListener((obs, oldV, newV) -> searchProducts(newV));
         showProducts(allProducts);
+        setActiveCategory(forYouBtn);
+    }
+
+    private void searchProducts(String searchText) {
+        List<Product> filteredList;
+        if (searchText == null || searchText.trim().isEmpty()) {
+            filteredList = allProducts;
+        } else {
+            String lowerCaseFilter = searchText.toLowerCase().trim();
+            filteredList = allProducts.stream().filter(p ->
+                (p.getName() != null && p.getName().toLowerCase().contains(lowerCaseFilter)) ||
+                (p.getCategory() != null && p.getCategory().toLowerCase().contains(lowerCaseFilter))
+            ).collect(Collectors.toList());
+        }
+        showProducts(filteredList);
     }
 
     private void showProducts(List<Product> products) {
         productGrid.getChildren().clear();
-        
         for (Product product : products) {
-            VBox productCard = createProductCard(product);
-            productGrid.getChildren().add(productCard);
+            productGrid.getChildren().add(createProductCard(product));
         }
     }
 
+    // ===================================================================
+    // PERUBAHAN UTAMA ADA DI SINI: MEMBUAT KONTROL JUMLAH INTERAKTIF
+    // ===================================================================
     private VBox createProductCard(Product product) {
         VBox card = new VBox(8);
         card.setPrefWidth(180);
         card.setPrefHeight(250);
         card.setStyle("-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);");
-        
-        // Image
+
         ImageView imageView = new ImageView();
         imageView.setFitWidth(150);
         imageView.setFitHeight(120);
         imageView.setPreserveRatio(true);
-        
+
         try {
-            // Pastikan path gambar dimulai dengan "/"
             String imagePath = product.getImage();
             if (imagePath != null && !imagePath.isEmpty()) {
-                // Jika path tidak dimulai dengan "/", tambahkan "/"
-                if (!imagePath.startsWith("/")) {
-                    imagePath = "/" + imagePath;
-                }
-                
-                // Load image dari resources
+                if (!imagePath.startsWith("/")) imagePath = "/" + imagePath;
                 InputStream imageStream = getClass().getResourceAsStream(imagePath);
-                if (imageStream != null) {
-                    Image image = new Image(imageStream);
-                    imageView.setImage(image);
-                } else {
-                    // Fallback ke default image jika gambar tidak ditemukan
-                    Image defaultImage = new Image(getClass().getResourceAsStream("/images/default-product.png"));
-                    imageView.setImage(defaultImage);
-                }
+                if (imageStream != null) imageView.setImage(new Image(imageStream));
+                else imageView.setImage(new Image(getClass().getResourceAsStream("/images/default-product.png")));
             } else {
-                // Default image jika path kosong
-                Image defaultImage = new Image(getClass().getResourceAsStream("/images/default-product.png"));
-                imageView.setImage(defaultImage);
+                imageView.setImage(new Image(getClass().getResourceAsStream("/images/default-product.png")));
             }
         } catch (Exception e) {
-            System.err.println("Error loading image for product: " + product.getName() + " - " + e.getMessage());
-            // Set default image on error
-            try {
-                Image defaultImage = new Image(getClass().getResourceAsStream("/images/default-product.png"));
-                imageView.setImage(defaultImage);
-            } catch (Exception ex) {
-                // Jika default image juga tidak ada, buat placeholder
-                imageView.setStyle("-fx-background-color: #f0f0f0;");
-            }
+            imageView.setImage(new Image(getClass().getResourceAsStream("/images/default-product.png")));
         }
-        
-        // Product info
+
         Label nameLabel = new Label(product.getName());
         nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
         nameLabel.setWrapText(true);
         nameLabel.setMaxWidth(150);
-        
-        Label priceLabel = new Label("Rp " + String.format("%.0f", product.getPrice()));
+
+        Label priceLabel = new Label("Rp " + String.format("%,.0f", product.getPrice()));
         priceLabel.setStyle("-fx-text-fill: #ff6666; -fx-font-weight: bold; -fx-font-size: 13px;");
-        
+
         Label stockLabel = new Label("Stok: " + product.getStock());
         stockLabel.setStyle("-fx-text-fill: #666666; -fx-font-size: 11px;");
+
+        // --- KONTROL KERANJANG BARU ---
         
         Button addToCartBtn = new Button("+ Keranjang");
-        addToCartBtn.setStyle("-fx-background-color: #ff6666; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-size: 11px;");
-        addToCartBtn.setOnAction(e -> addToCart(product));
+        addToCartBtn.setStyle("-fx-background-color: #ff6666; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-size: 11px; -fx-cursor: hand;");
+        addToCartBtn.setPrefWidth(150);
+
+        Label quantityLabel = new Label();
+        quantityLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+
+        Button minusBtn = new Button("−");
+        Button plusBtn = new Button("+");
+        String quantityBtnStyle = "-fx-background-color: #ff6666; -fx-text-fill: white; -fx-background-radius: 50; -fx-font-weight: bold; -fx-min-width: 28px; -fx-min-height: 28px; -fx-cursor: hand;";
+        minusBtn.setStyle(quantityBtnStyle);
+        plusBtn.setStyle(quantityBtnStyle);
         
-        card.getChildren().addAll(imageView, nameLabel, priceLabel, stockLabel, addToCartBtn);
+        HBox quantityControlBox = new HBox(10, minusBtn, quantityLabel, plusBtn);
+        quantityControlBox.setAlignment(Pos.CENTER);
+        
+        StackPane cartControlContainer = new StackPane(addToCartBtn, quantityControlBox);
+        cartControlContainer.setAlignment(Pos.CENTER);
+
+        Runnable updateView = () -> {
+            Optional<CartItem> itemInCart = findCartItem(product.getId());
+            if (itemInCart.isPresent()) {
+                quantityLabel.setText(String.valueOf(itemInCart.get().getQuantity()));
+                addToCartBtn.setVisible(false);
+                quantityControlBox.setVisible(true);
+            } else {
+                addToCartBtn.setVisible(true);
+                quantityControlBox.setVisible(false);
+            }
+        };
+
+        addToCartBtn.setOnAction(e -> {
+            addItemToCart(product);
+            updateView.run();
+        });
+
+        plusBtn.setOnAction(e -> {
+            increaseItemQuantity(product);
+            updateView.run();
+        });
+
+        minusBtn.setOnAction(e -> {
+            decreaseItemQuantity(product);
+            updateView.run();
+        });
+
+        updateView.run();
+
+        card.getChildren().addAll(imageView, nameLabel, priceLabel, stockLabel, cartControlContainer);
+        card.setOnMouseClicked(event -> {
+             if (event.getTarget() instanceof Button || event.getTarget() instanceof Label) return;
+             showProductDetail(product);
+        });
         return card;
     }
 
-
-    @FXML
-    private void onSearchButtonClick() {
-        String searchText = searchField.getText();
-        searchProducts(searchText);
+    private Optional<CartItem> findCartItem(String productId) {
+        return cart.stream().filter(ci -> ci.getProductId().equals(productId)).findFirst();
     }
 
-    private void searchProducts(String searchText) {
-        if (searchText == null || searchText.trim().isEmpty()) {
-            showProducts(allProducts);
-            return;
+    private void addItemToCart(Product product) {
+        if (product.getStock() > 0) {
+            cart.add(new CartItem(product.getId(), 1, product.getPrice()));
+        } else {
+            AlertUtil.showInfo("Stok produk habis.");
         }
-        
-        String searchLower = searchText.toLowerCase().trim();
-        List<Product> filteredProducts = allProducts.stream()
-            .filter(p -> 
-                p.getName().toLowerCase().contains(searchLower) ||
-                p.getBrand().toLowerCase().contains(searchLower) ||
-                p.getCategory().toLowerCase().contains(searchLower) ||
-                p.getDescription().toLowerCase().contains(searchLower)
-            )
-            .collect(Collectors.toList());
-        
-        showProducts(filteredProducts);
     }
 
-    @FXML
-    private void onForYou() {
-        setActiveCategory(forYouBtn);
-        showProducts(allProducts); // Tampilkan semua produk
+    private void increaseItemQuantity(Product product) {
+        findCartItem(product.getId()).ifPresent(item -> {
+            if (item.getQuantity() < product.getStock()) {
+                item.setQuantity(item.getQuantity() + 1);
+            } else {
+                AlertUtil.showInfo("Jumlah di keranjang sudah mencapai batas stok.");
+            }
+        });
     }
 
-    @FXML
-    private void onSkinCare() {
-        setActiveCategory(skinCareBtn);
+    private void decreaseItemQuantity(Product product) {
+        findCartItem(product.getId()).ifPresent(item -> {
+            if (item.getQuantity() > 1) {
+                item.setQuantity(item.getQuantity() - 1);
+            } else {
+                cart.remove(item);
+            }
+        });
+    }
+    
+    // --- Sisa kode tidak ada perubahan ---
+    @FXML private void onForYou() { setActiveCategory(forYouBtn); showProducts(allProducts); }
+    @FXML private void onSkinCare() { filterByCategory("SkinCare", skinCareBtn); }
+    @FXML private void onBodyCare() { filterByCategory("BodyCare", bodyCareBtn); }
+    @FXML private void onHairCare() { filterByCategory("Hair Care", hairCareBtn); }
+    @FXML private void onMakeUp() { filterByCategory("Make Up", makeUpBtn); }
+
+    private void filterByCategory(String category, Button btn) {
+        setActiveCategory(btn);
         showProducts(allProducts.stream()
-            .filter(p -> p.getCategory().equalsIgnoreCase("SkinCare"))
-            .collect(Collectors.toList()));
-    }
-
-    @FXML
-    private void onBodyCare() {
-        setActiveCategory(bodyCareBtn);
-        showProducts(allProducts.stream()
-            .filter(p -> p.getCategory().equalsIgnoreCase("BodyCare"))
-            .collect(Collectors.toList()));
-    }
-
-    @FXML
-    private void onHairCare() {
-        setActiveCategory(hairCareBtn);
-        showProducts(allProducts.stream()
-            .filter(p -> p.getCategory().equalsIgnoreCase("Hair Care"))
-            .collect(Collectors.toList()));
-    }
-
-    @FXML
-    private void onMakeUp() {
-        setActiveCategory(makeUpBtn);
-        showProducts(allProducts.stream()
-            .filter(p -> p.getCategory().equalsIgnoreCase("Make Up"))
+            .filter(p -> category.equalsIgnoreCase(p.getCategory()))
             .collect(Collectors.toList()));
     }
 
@@ -194,41 +222,18 @@ public class HomeController {
         activeBtn.getStyleClass().setAll("category-btn-active");
     }
 
-    // Ubah addToCart agar hanya menambah ke list cart (tanpa update ListView di home)
-    private void addToCart(Product product) {
-        CartItem existing = cart.stream()
-            .filter(ci -> ci.getProductId().equals(product.getId()))
-            .findFirst().orElse(null);
-        if (existing != null) {
-            existing.setQuantity(existing.getQuantity() + 1);
-        } else {
-            cart.add(new CartItem(product.getId(), 1, product.getPrice()));
-        }
-    }
-
     @FXML
     private void openCart() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/cart.fxml"));
             Parent root = loader.load();
             CartController cartController = loader.getController();
-            cartController.setCart(cart); // Kirim List<CartItem>
+            cartController.setCart(cart);
 
             cartController.getCheckoutBtn().setOnAction(e -> {
                 Stage cartStage = (Stage) cartController.getCheckoutBtn().getScene().getWindow();
                 cartStage.close();
-                try {
-                    FXMLLoader loader1 = new FXMLLoader(getClass().getResource("/fxml/checkout.fxml"));
-                    Parent root1 = loader1.load();
-                    CheckoutController checkoutController = loader1.getController();
-                    checkoutController.checkout(cart, "buyerId"); // Kirim List<CartItem>
-                    Stage stage = new Stage();
-                    stage.setTitle("Checkout");
-                    stage.setScene(new Scene(root1));
-                    stage.show();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                openCheckoutPage();
             });
 
             Stage stage = new Stage();
@@ -236,8 +241,23 @@ public class HomeController {
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    
+    private void openCheckoutPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/checkout.fxml"));
+            Parent root = loader.load();
+            CheckoutController checkoutController = loader.getController();
+            checkoutController.checkout(cart, MainApp.currentUser.getId());
+            Stage stage = new Stage();
+            stage.setTitle("Checkout");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -247,43 +267,42 @@ public class HomeController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
             Parent root = loader.load();
             ProfileController controller = loader.getController();
-            controller.setUser(MainApp.currentUser); // Pastikan currentUser sudah di-set saat login
+            controller.setUser(MainApp.currentUser);
             Stage stage = new Stage();
             stage.setTitle("Profil Saya");
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
-        } catch (Exception e) {
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showProductDetail(Product product) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/product_detail.fxml"));
+            Parent root = loader.load();
+            ProductDetailController controller = loader.getController();
+            controller.setProductDetails(product);
+            Stage detailStage = new Stage();
+            detailStage.setTitle("Detail Produk: " + product.getName());
+            detailStage.setScene(new Scene(root));
+            detailStage.initModality(Modality.APPLICATION_MODAL);
+            detailStage.show();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
     private void handleLogout() {
-        // Hapus session pengguna
-        MainApp.currentUser = null; // Logout user
-
-        // Pindah ke halaman login
         try {
+            MainApp.currentUser = null;
+            Stage stage = (Stage) logoutBtn.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
-            Stage stage = (Stage) logoutBtn.getScene().getWindow(); // Dapatkan window dari tombol logout
-            stage.setScene(new Scene(loader.load())); // Ganti scene ke halaman login
-            stage.setTitle("BEAUTRA Login"); // Set title untuk halaman login
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    @FXML
-    private void openDelivery() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/delivery.fxml"));
-            Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
-            stage.setTitle("Status Pengiriman");
-            stage.show();
-        } catch (Exception e) {
+            stage.setTitle("BEAUTRA Login");
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

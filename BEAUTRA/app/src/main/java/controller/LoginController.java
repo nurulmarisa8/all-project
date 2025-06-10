@@ -37,9 +37,6 @@ public class LoginController {
                     case "seller":
                         loader = new FXMLLoader(getClass().getResource("/fxml/seller_dashboard.fxml"));
                         break;
-                    case "admin":
-                        loader = new FXMLLoader(getClass().getResource("/fxml/admin_dashboard.fxml"));
-                        break;
                     default:
                         return;
                 }
@@ -68,12 +65,6 @@ public class LoginController {
         if (email == null || email.isEmpty()) {
             util.AlertUtil.showInfo("Masukkan email Anda terlebih dahulu.");
             return;
-        }
-        User user = authService.findByEmail(email);
-        if (user != null) {
-            util.AlertUtil.showInfo("Password untuk " + email + " adalah: " + user.getPassword());
-        } else {
-            util.AlertUtil.showInfo("Email tidak ditemukan.");
         }
     }
 }

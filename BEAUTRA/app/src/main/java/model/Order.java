@@ -3,19 +3,28 @@ package model;
 import java.util.List;
 
 public class Order implements ITransaksi {
+    
     private String id;
+    private String buyerId; 
     private List<CartItem> items;
     private double total;
     private String status;
     private String timestamp;
-
-    public Order(String id, String buyerId, List<CartItem> items, String note, String voucher, String shipping, String paymentMethod, double total, String status, String timestamp) {
+    private String paymentMethod;
+    
+    public Order() {}
+    
+    public Order(String id, String buyerId, List<CartItem> items, double total, String status, String timestamp, String paymentMethod) {
         this.id = id;
+        this.buyerId = buyerId;
         this.items = items;
         this.total = total;
         this.status = status;
         this.timestamp = timestamp;
+        this.paymentMethod = paymentMethod;
     }
+
+    // --- METHOD DARI INTERFACE ITRANSAKSI ---
 
     @Override
     public String getId() {
@@ -24,6 +33,7 @@ public class Order implements ITransaksi {
 
     @Override
     public List<CartItem> getItems() {
+        // Method ini sekarang ada kembali
         return items;
     }
 
@@ -31,7 +41,7 @@ public class Order implements ITransaksi {
     public double getTotal() {
         return total;
     }
-
+    
     @Override
     public String getStatus() {
         return status;
@@ -41,5 +51,18 @@ public class Order implements ITransaksi {
     public String getTimestamp() {
         return timestamp;
     }
+    
+    // --- GETTER & SETTER LAINNYA ---
 
+    public String getBuyerId() {
+        return buyerId;
+    }
+    
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
