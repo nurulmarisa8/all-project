@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.SellerDashboardController" prefWidth="900" prefHeight="600" style="-fx-background-color: #fff6f2;">
+    <children>
+        <Label text="Seller Dashboard" layoutX="40" layoutY="20" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #ff6666;"/>
+        
+        <!-- Produk Section -->
+        <VBox layoutX="40" layoutY="70" spacing="12" prefWidth="350">
+            <children>
+                <Label text="Produk Anda" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+                <ListView fx:id="productList" prefHeight="200"/>
+                <HBox spacing="8">
+                    <Button text="Tambah" onAction="#showAddProductDialog" style="-fx-background-color: #ff6666; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 8;"/>
+                    <Button text="Edit" onAction="#showEditProductDialog" style="-fx-background-color: #ff6666; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 8;"/>
+                    <Button text="Hapus" onAction="#deleteProduct" style="-fx-background-color: #ff6666; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 8;"/>
+                </HBox>
+            </children>
+        </VBox>
+        
+        <!-- Transaksi Section -->
+        <VBox layoutX="420" layoutY="70" spacing="12" prefWidth="400">
+            <children>
+                <Label text="Transaksi" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+                <TableView fx:id="orderTable" prefHeight="300">
+                    <columns>
+                        <TableColumn text="Order ID" prefWidth="100"/>
+                        <TableColumn text="Produk" prefWidth="120"/>
+                        <TableColumn text="Qty" prefWidth="40"/>
+                        <TableColumn text="Total" prefWidth="80"/>
+                        <TableColumn text="Status" prefWidth="60"/>
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
+        
+        <!-- Logout Button -->
+        <Button fx:id="logoutBtn" layoutX="1150" layoutY="20" prefWidth="50" prefHeight="50" style="-fx-background-color: transparent;" onAction="#handleLogout">
+            <graphic>
+                <ImageView fitWidth="40" fitHeight="40" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/images/logout.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+    </children>
+</AnchorPane>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.CartController" prefWidth="600" prefHeight="420">
+    <children>
+        <Label text="Keranjang Belanja" layoutX="40" layoutY="20" style="-fx-font-size: 38px; -fx-font-weight: bold; -fx-text-fill: #ff6666;"/>
+        <VBox fx:id="cartBox" layoutX="40" layoutY="70" prefWidth="520" prefHeight="220" spacing="18"/>
+        <Label fx:id="cartTotalLabel" text="Total Harga:" layoutX="60" layoutY="310" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #ff6666;"/>
+        <Label fx:id="cartTotalValue" text="Rp0" layoutX="400" layoutY="310" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: black;"/>
+        <Button fx:id="checkoutBtn" text="Checkout" layoutX="370" layoutY="350" prefWidth="180" prefHeight="54"
+                style="-fx-background-color: #ff6666; -fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold; -fx-background-radius: 18;"/>
+    </children>
+</AnchorPane>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.RegisterController" prefWidth="700" prefHeight="400" style="-fx-background-color: #FFF6F2;">
+    <children>
+        <!-- Panel kiri (form register) -->
+        <VBox layoutX="40" layoutY="40" prefWidth="400" prefHeight="340" spacing="12"
+              style="-fx-background-color: white; -fx-background-radius: 18; -fx-effect: dropshadow(gaussian, #e0e0e0, 16, 0, 0, 2); -fx-padding: 24 32 24 32;">
+            <children>
+                <Label text="Logo Here" style="-fx-text-fill: #FF7A59; -fx-font-size: 26px; -fx-font-weight: bold;"/>
+                <Label text="Create your account" style="-fx-text-fill: #888; -fx-font-size: 13px;"/>
+                <Label text="Sign up" style="-fx-font-size: 36px; -fx-font-weight: bold;"/>
+                <Label text="Full Name" style="-fx-font-size: 15px;"/>
+                <TextField fx:id="fullnameField" promptText="Enter your name" style="-fx-background-color: #FFF6F2;"/>
+                <Label text="Email" style="-fx-font-size: 15px;"/>
+                <TextField fx:id="emailField" promptText="Enter your email" style="-fx-background-color: #FFF6F2;"/>
+                <Label text="Phone" style="-fx-font-size: 15px;"/>
+                <TextField fx:id="phoneField" promptText="Enter your phone" style="-fx-background-color: #FFF6F2;"/>
+                <Label text="Password" style="-fx-font-size: 15px;"/>
+                <PasswordField fx:id="passwordField" promptText="Enter your password" style="-fx-background-color: #FFF6F2;"/>
+                <Label text="Gender" style="-fx-font-size: 15px;"/>
+                <ComboBox fx:id="genderBox" promptText="Pilih gender" style="-fx-background-color: #FFF6F2;"/>
+                <Label text="Address" style="-fx-font-size: 15px;"/>
+                <TextField fx:id="addressField" promptText="Enter your address" style="-fx-background-color: #FFF6F2;"/>
+                <Label text="Role" style="-fx-font-size: 15px;"/>
+                <ComboBox fx:id="roleBox" promptText="Pilih role" style="-fx-background-color: #FFF6F2;"/>
+                <Button text="SIGN UP →" onAction="#handleRegister" style="-fx-background-color: #FF7A59; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;"/>
+                <HBox alignment="CENTER">
+                    <Label text="Already have an account ?" style="-fx-text-fill: #aaa;"/>
+                    <Hyperlink text="Sign in" onAction="#goToLogin" style="-fx-text-fill: #FF7A59;"/>
+                </HBox>
+            </children>
+        </VBox>
+        <!-- Panel kanan (opsional ilustrasi/teks) -->
+        <VBox layoutX="480" layoutY="0" prefWidth="300" prefHeight="400" alignment="CENTER">
+            <children>
+                <Label text=" " prefHeight="40"/>
+                <!-- Bisa tambahkan ImageView di sini jika ingin -->
+                <Label text="Daftar dan mulai belanja sekarang!" style="-fx-font-size: 16px; -fx-text-fill: #FF7A59;"/>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

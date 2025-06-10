@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.ProfileController"
+    prefWidth="400" prefHeight="400"
+    style="-fx-background-color: #ffcccc;">
+    <children>
+        <VBox alignment="CENTER" spacing="18" layoutX="40" layoutY="40" prefWidth="320" prefHeight="320"
+            style="-fx-background-color: #fff6f2; -fx-background-radius: 28; -fx-padding: 24;">
+            <children>
+                <ImageView fx:id="avatarView" fitWidth="90" fitHeight="90"/>
+                <Label fx:id="fullnameLabel" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+                <Label fx:id="emailLabel"/>
+                <Label fx:id="phoneLabel"/>
+                <Label fx:id="genderLabel"/>
+                <Label fx:id="addressLabel"/>
+                <Label fx:id="roleLabel"/>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

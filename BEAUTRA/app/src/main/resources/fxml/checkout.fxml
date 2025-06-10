@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.CheckoutController" prefWidth="900" prefHeight="600" style="-fx-background-color: #ffcccc;">
+    <children>
+        <!-- Judul -->
+        <Label text="Checkout" layoutX="40" layoutY="40" style="-fx-font-size: 44px; -fx-font-weight: bold; -fx-text-fill: #ff6666;"/>
+        <Label text="BEUTRA" layoutX="700" layoutY="50" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #ff6666;"/>
+        
+        <!-- Panel kiri: Shipping Address -->
+        <VBox layoutX="40" layoutY="120" spacing="18" prefWidth="380">
+            <children>
+                <Label text="Shipping Address" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #ff7a59;"/>
+                <Label text="Indo Name" style="-fx-font-size: 16px;"/>
+                <TextField fx:id="nameField" promptText="Nama Penerima" style="-fx-background-radius: 8; -fx-font-size: 18px;"/>
+                <Label text="Phone" style="-fx-font-size: 16px;"/>
+                <TextField fx:id="phoneField" promptText="No HP" style="-fx-background-radius: 8; -fx-font-size: 18px;"/>
+                <Label text="Address" style="-fx-font-size: 16px;"/>
+                <TextField fx:id="addressField" promptText="Alamat Lengkap" style="-fx-background-radius: 8; -fx-font-size: 18px;"/>
+                <Label text="Payment Method" style="-fx-font-size: 16px;"/>
+                <ComboBox fx:id="paymentBox" promptText="Pilih Metode" style="-fx-background-radius: 8; -fx-font-size: 18px;"/>
+            </children>
+        </VBox>
+
+        <!-- Panel kanan: Order Summary -->
+        <VBox layoutX="480" layoutY="120" spacing="18" prefWidth="370">
+            <children>
+                <Label text="Order Summary" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #ff7a59;"/>
+                <VBox fx:id="orderSummaryBox" style="-fx-background-color: #fff6f2; -fx-background-radius: 18; -fx-padding: 18;" spacing="8"/>
+                <Separator/>
+                <HBox alignment="CENTER_RIGHT">
+                    <Label text="Subtotal" style="-fx-font-size: 16px;" prefWidth="180"/>
+                    <Label fx:id="subtotalLabel" style="-fx-font-size: 16px;"/>
+                </HBox>
+                <HBox alignment="CENTER_RIGHT">
+                    <Label text="Shipping Cost" style="-fx-font-size: 16px;" prefWidth="180"/>
+                    <Label fx:id="shippingLabel" style="-fx-font-size: 16px;"/>
+                </HBox>
+                <Separator/>
+                <HBox alignment="CENTER_RIGHT">
+                    <Label text="Total" style="-fx-font-size: 20px; -fx-font-weight: bold;" prefWidth="180"/>
+                    <Label fx:id="totalLabel" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+                </HBox>
+            </children>
+        </VBox>
+
+        <!-- Tombol Place Order -->
+        <Button fx:id="placeOrderBtn" text="Place Order" layoutX="650" layoutY="500" prefWidth="220" prefHeight="54"
+                style="-fx-background-color: #ff6666; -fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold; -fx-background-radius: 18;"/>
+    </children>
+</AnchorPane>

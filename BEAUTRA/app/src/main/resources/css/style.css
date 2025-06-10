@@ -1,59 +1,70 @@
-/* style.css */
-
-/* Style umum body */
 .root {
-    -fx-font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    -fx-background-color: #f5f5f5;
+    -fx-background-color: #ffcccc;
+    background-color: #ffcccc;
 }
 
-/* Label judul besar */
-.label {
-    -fx-text-fill: #333333;
+.card {
+    -fx-background-color: #eeeeee;
+    background-color: #eeeeee;
+    -fx-background-radius: 22;
+    -fx-effect: dropshadow(gaussian, #fcb0b1, 18, 0.18, 0, 8);
 }
 
-.label[style*="font-size: 24px;"] {
+.soft-btn, .category-btn-active {
+    -fx-background-color: #eeeeee;
+    background-color: #eeeeee;
+    -fx-background-radius: 24;
+    -fx-font-size: 18px;
+    font-size: 18px;
+    -fx-text-fill: #ff6666;
+    color: #ff6666;
+    -fx-font-weight: normal;
+    font-weight: normal;
+    -fx-border-color: #ff6666;
+    border-color: #ff6666;
+    -fx-border-width: 2px;
+    border-width: 2px;
+    -fx-effect: dropshadow(gaussian, #ffcccc, 6, 0.12, 0, 2);
+    transition: all 0.2s cubic-bezier(.4, 0, .2, 1);
+    min-width: 110px;
+    -fx-min-width: 110px;
+    -fx-pref-width: 120px;
+    padding: 6px 18px;
+    -fx-padding: 6 18 6 18;
+    box-sizing: border-box;
+    outline: none; /* Removed outline */
+}
+
+.soft-btn {
+    -fx-background-color: #eeeeee;
+    background-color: #eeeeee;
+    -fx-font-weight: normal;
+    font-weight: normal;
+}
+
+.soft-btn:hover, .soft-btn:focused {
+    -fx-background-color: #ffeaea;
+    background-color: #ffeaea;
+    -fx-effect: dropshadow(gaussian, #ffb3b3, 10, 0.18, 0, 4);
+}
+
+.category-btn-active {
+    -fx-background-color: #fff6f2;
+    background-color: #fff6f2;
     -fx-font-weight: bold;
+    font-weight: bold;
+    -fx-box-shadow: 0 2px 12px rgba(255, 204, 204, 0.33); /* Changed to rgba for better transparency control */
 }
 
-/* Tombol umum */
-.button {
-    -fx-background-color: #007ACC;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-padding: 8 16 8 16;
-    -fx-background-radius: 5;
-    -fx-cursor: hand;
+.category-btn-active:hover, .category-btn-active:focused {
+    -fx-background-color: #ffeaea;
+    background-color: #ffeaea;
+    -fx-effect: dropshadow(gaussian, #ff9999, 16, 0.22, 0, 6);
+    -fx-box-shadow: 0 4px 18px rgba(255, 179, 179, 0.33); /* Changed to rgba for better transparency control */
 }
 
-.button:hover {
-    -fx-background-color: #005A9E;
+.cart-btn {
+    -fx-background-color: #ff6666;
+    background-color: #ff6666;
+    -fx-background-radius: 50%;
 }
-
-/* TextField dan PasswordField */
-.text-field, .password-field, .choice-box, .text-area {
-    -fx-border-color: #cccccc;
-    -fx-border-radius: 4;
-    -fx-padding: 6 8 6 8;
-    -fx-background-radius: 4;
-}
-
-/* ListView */
-.list-view {
-    -fx-background-color: white;
-    -fx-border-color: #cccccc;
-    -fx-border-radius: 5;
-}
-
-/* VBox dan HBox padding dan spacing */
-.vbox, .hbox {
-    -fx-spacing: 10;
-    -fx-padding: 10;
-}
-
-/* ScrollPane */
-.scroll-pane {
-    -fx-background-color: transparent;
-}
-
-/* Alert style (custom jika ingin override dialog standar) */
-/* Biasanya alert pakai tema sistem, custom harus pakai dialog kustom */

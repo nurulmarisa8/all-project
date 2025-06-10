@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.LoginController" prefWidth="700" prefHeight="400" style="-fx-background-color: #FFF6F2;">
+    <children>
+        <!-- Panel kiri (form login) -->
+        <VBox layoutX="40" layoutY="40" prefWidth="400" prefHeight="340" spacing="14"
+              style="-fx-background-color: white; -fx-background-radius: 18; -fx-effect: dropshadow(gaussian, #e0e0e0, 16, 0, 0, 2); -fx-padding: 24 32 24 32;">
+            <children>
+                <Label text="Logo Here" style="-fx-text-fill: #FF7A59; -fx-font-size: 26px; -fx-font-weight: bold;"/>
+                <Label text="Welcome back !!!" style="-fx-text-fill: #888; -fx-font-size: 13px;"/>
+                <Label text="Sign in" style="-fx-font-size: 36px; -fx-font-weight: bold;"/>
+                <Label text="Email" style="-fx-font-size: 15px;"/>
+                <TextField fx:id="emailField" promptText="Enter your email" style="-fx-background-color: #FFF6F2;"/>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Password" style="-fx-font-size: 15px;"/>
+                    <Hyperlink text="Forgot Password ?" style="-fx-font-size: 12px; -fx-text-fill: #FF7A59;" onAction="#handleForgotPassword"/>
+                </HBox>
+                <PasswordField fx:id="passwordField" promptText="Enter your password" style="-fx-background-color: #FFF6F2;"/>
+                <Button text="SIGN IN →" onAction="#handleLogin" style="-fx-background-color: #FF7A59; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;"/>
+                <HBox alignment="CENTER">
+                    <Label text="I don't have an account ?" style="-fx-text-fill: #aaa;"/>
+                    <Hyperlink text="Sign up" onAction="#goToRegister" style="-fx-text-fill: #FF7A59;"/>
+                </HBox>
+            </children>
+        </VBox>
+        <!-- Panel kanan (gambar/ilustrasi) -->
+        <VBox layoutX="480" layoutY="0" prefWidth="300" prefHeight="400" alignment="CENTER">
+            <children>
+                <Label text=" " prefHeight="40"/>
+                <ImageView fitWidth="180" fitHeight="180" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <!-- <Image url="@/img/cart.png"/> -->
+                    </image>
+                </ImageView>
+                <Label text=" " prefHeight="40"/>
+                <Label text="Belanja mudah dan cepat!" style="-fx-font-size: 16px; -fx-text-fill: #FF7A59;"/>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

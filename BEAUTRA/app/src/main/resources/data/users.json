@@ -1,0 +1,22 @@
+[
+  {
+    "id": "USR-1C3DEA73",
+    "fullname": "nurulmarisa",
+    "email": "123",
+    "phone": "08123456576",
+    "password": "123",
+    "gender": "Perempuan",
+    "address": "Jln. Sahabat",
+    "role": "buyer"
+  },
+  {
+    "id": "USR-E264F876",
+    "fullname": "Kimi Store",
+    "email": "456",
+    "phone": "08123456789",
+    "password": "123",
+    "gender": "Perempuan",
+    "address": "JL. Damai",
+    "role": "seller"
+  }
+]
