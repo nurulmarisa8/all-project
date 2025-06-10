@@ -26,7 +26,7 @@ public class ProductService {
 
         if (productToDelete != null) {
             products.remove(productToDelete);
-            JsonUtil.writeJson(FILE_PATH, products);  // Menyimpan perubahan ke file JSON
+            JsonUtil.writeJson(FILE_PATH, products);  
         } else {
             System.out.println("Product not found.");
         }
@@ -65,6 +65,7 @@ public class ProductService {
             .filter(p -> p.getCategory().equalsIgnoreCase(category))
             .toList();
     }
+
     
 }
 

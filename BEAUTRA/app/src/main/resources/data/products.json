@@ -8,6 +8,17 @@
     "image": "/images/L\u0027Oréal Infallible 24H Fresh Wear Foundation In A Powder.png",
     "sellerId": "USR-E264F876",
     "price": 100000.0,
-    "stock": 19
+    "stock": 18
+  },
+  {
+    "id": "P-626F9067",
+    "name": "Lavojoy Let It Glow Body Serum Skin Brightening",
+    "category": "SkinCare",
+    "brand": "",
+    "description": "",
+    "image": "/images/Lavojoy Let It Glow Body Serum Skin Brightening.png",
+    "sellerId": "USR-E264F876",
+    "price": 100000.0,
+    "stock": 20
   }
 ]

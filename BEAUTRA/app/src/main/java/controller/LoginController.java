@@ -19,8 +19,6 @@ public class LoginController {
     @FXML private Label cartTotalLabel;
 
     private final AuthService authService = new AuthService();
-    private static final String FILE_PATH = "g:/BEAUTRA/app/src/main/resources/data/users.json";
-
     @FXML
     private void handleLogin() {
         String email = emailField.getText();

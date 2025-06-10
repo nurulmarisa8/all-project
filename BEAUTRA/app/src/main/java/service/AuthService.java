@@ -5,7 +5,6 @@ import util.JsonUtil;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class AuthService {
     private static final String FILE_PATH = "src/main/resources/data/users.json";

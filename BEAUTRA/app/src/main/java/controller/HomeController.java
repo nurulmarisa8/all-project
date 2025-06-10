@@ -10,7 +10,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 import model.Product;
@@ -25,7 +24,6 @@ import java.util.stream.Collectors;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
-import javafx.stage.StageStyle;
 
 public class HomeController {
     @FXML private ListView<String> productList;
@@ -39,9 +37,6 @@ public class HomeController {
     private List<Product> allProducts;
 
     private final List<CartItem> cart = new ArrayList<>();
-
-    private Stage checkoutStage;
-    private CheckoutSlideController checkoutSlideController;
 
     @FXML
     public void initialize() {
@@ -153,34 +148,6 @@ public class HomeController {
     }
 
     @FXML
-    private void goToBestSeller() {        // Navigasi ke halaman best seller (opsional)
-    }
-
-    // Menambahkan produk baru ke dalam daftar
-    private void addProduct(Product product) { 
-        productService.addProduct(product);
-        allProducts.add(product);
-        showProducts(allProducts);
-    }
-
-    // Menghapus produk dari daftar
-    private void removeProduct(Product product) {
-        productService.addProduct(product);
-        allProducts.remove(product);
-        showProducts(allProducts);
-    }
-
-    // Mengupdate informasi produk
-    private void updateProduct(Product product) {
-        productService.updateProduct(0, product);
-        int index = allProducts.indexOf(product);
-        if (index >= 0) {
-            allProducts.set(index, product);
-            showProducts(allProducts);
-        }
-    }
-
-    @FXML
     private void onForYou() {
         setActiveCategory(forYouBtn);
         showProducts(allProducts); // Tampilkan semua produk
@@ -225,44 +192,6 @@ public class HomeController {
         hairCareBtn.getStyleClass().setAll("soft-btn");
         makeUpBtn.getStyleClass().setAll("soft-btn");
         activeBtn.getStyleClass().setAll("category-btn-active");
-    }
-
-    private void showCheckoutSlide(Product product) {
-        try {
-            if (checkoutStage == null) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/checkout_slide.fxml"));
-                Parent root = loader.load();
-                checkoutSlideController = loader.getController();
-
-                checkoutStage = new Stage();
-                checkoutStage.initStyle(StageStyle.UNDECORATED);
-                checkoutStage.initModality(Modality.APPLICATION_MODAL);
-                checkoutStage.setScene(new Scene(root));
-                checkoutStage.setWidth(400);
-                checkoutStage.setHeight(690);
-                checkoutStage.setX(productGrid.getScene().getWindow().getX() + productGrid.getScene().getWindow().getWidth() - 400);
-                checkoutStage.setY(productGrid.getScene().getWindow().getY());
-            }
-            checkoutSlideController.addToCart(product);
-            checkoutStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void showCheckout(List<Product> cart) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/checkout.fxml"));
-            Parent root = loader.load();
-            CheckoutController checkoutController = loader.getController();
-
-            Stage stage = new Stage();
-            stage.setTitle("Checkout");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     // Ubah addToCart agar hanya menambah ke list cart (tanpa update ListView di home)

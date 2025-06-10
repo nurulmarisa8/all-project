@@ -11,9 +11,7 @@ import java.util.UUID;
 
 public class OrderService {
     private static final String FILE_PATH = "src/main/resources/data/orders.json";
-    private static final String PRODUCT_FILE_PATH = "src/main/resources/data/products.json"; // Path produk
 
-    // Membuat order
     public void createOrder(List<CartItem> cart, String buyerId) {
         List<Order> orders = JsonUtil.readJson(FILE_PATH, Order.class);
         ProductService productService = new ProductService();
@@ -71,8 +69,7 @@ public class OrderService {
         // Menambahkan order ke daftar orders
         orders.add(newOrder);
         JsonUtil.writeJson(FILE_PATH, orders);
-
-        // Update status pengiriman (Misalnya, setelah pembayaran diterima, status berubah menjadi "shipped")
+        
     }
 
 

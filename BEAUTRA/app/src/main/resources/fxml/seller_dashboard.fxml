@@ -27,11 +27,11 @@
                 <Label text="Transaksi" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
                 <TableView fx:id="orderTable" prefHeight="300">
                     <columns>
-                        <TableColumn text="Order ID" prefWidth="100"/>
+                        <TableColumn text="Order ID" prefWidth="80"/>
                         <TableColumn text="Produk" prefWidth="120"/>
-                        <TableColumn text="Qty" prefWidth="40"/>
+                        <TableColumn text="Jumlah" prefWidth="50"/>
                         <TableColumn text="Total" prefWidth="80"/>
-                        <TableColumn text="Status" prefWidth="60"/>
+                        <TableColumn text="Payment" prefWidth="100"/>
                     </columns>
                 </TableView>
             </children>
