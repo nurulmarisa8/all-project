@@ -95,10 +95,52 @@ src
 
 ## Halaman Login
 
-![Login](BEAUTRA/app/src/main/resources/images/readme/Login.png)
+![Login](https://github.com/nurulmarisa8/all-project/blob/main/BEAUTRA/readme/Login.png)
 
 ---
+## Menu Utama (Buyer)
 
+![Home](https://github.com/nurulmarisa8/all-project/blob/main/BEAUTRA/readme/Home.png)
+
+---
+## Tampilan Lihat Profile (Buyer)
+
+![Profile](https://github.com/nurulmarisa8/all-project/blob/main/BEAUTRA/readme/Profil.png)
+
+---
+## Tampilan Keranjang (Buyer)
+
+![Keranjang](https://github.com/nurulmarisa8/all-project/blob/main/BEAUTRA/readme/Keranjang.png)
+
+---
+## Checkout / Pembelian (Buyer)
+
+![Keranjang](https://github.com/nurulmarisa8/all-project/blob/main/BEAUTRA/readme/Keranjang.png)
+
+---
+## Lihat Keranjang (Buyer)
+
+![Checkout](https://github.com/nurulmarisa8/all-project/blob/main/BEAUTRA/readme/Checkout.png)
+
+---
+## Lihat Keranjang (Buyer)
+
+![Checkout](https://github.com/nurulmarisa8/all-project/blob/main/BEAUTRA/readme/Checkout.png)
+
+---
+## Dashboard Penjualan (Seller)
+
+![SellerDasbor](https://github.com/nurulmarisa8/all-project/blob/main/BEAUTRA/readme/SellerDasbor.png)
+
+---
+## Tambahkan Produk (Seller)
+
+![TambahProduk](https://github.com/nurulmarisa8/all-project/blob/main/BEAUTRA/readme/TambahProduk.png)
+
+---
+## Edit Produk (Seller)
+
+![EditProduk](https://github.com/nurulmarisa8/all-project/blob/main/BEAUTRA/readme/EditProduk.png)
 
 ---
 
