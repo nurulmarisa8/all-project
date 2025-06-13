@@ -34,9 +34,12 @@
 ## ⚙️ Cara Menjalankan Aplikasi
 
 ### 1. Prasyarat
-- **Java Development Kit (JDK) 11+**
-- **JavaFX** sudah terkonfigurasi di IDE
+- **Java Development Kit (JDK) 21+**  
+  (Diuji pada OpenJDK 21.0.7 Temurin LTS)
+- **Gradle 8.8+** untuk build dan dependency management
+- **JavaFX** sudah terkonfigurasi di IDE/proyek (modular/VM options)
 - Library eksternal: [`Gson`](https://github.com/google/gson)
+
 
 ### 2. Struktur Direktori
 ```
@@ -57,9 +60,24 @@ src
 ```
 
 ### 3. Menjalankan
-- Buka project di IDE (IntelliJ/Eclipse/VS Code, dll)
-- Jalankan file `MainApp.java`
-- Ikuti instruksi di layar untuk login atau registrasi
+
+- **Buka project di VS Code** (atau IDE lain yang kompatibel)
+- Pastikan sudah install [Java Extension Pack](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack) di VS Code
+- Buka terminal di VS Code pada root project
+- Jalankan perintah berikut untuk build ulang dan menjalankan aplikasi:
+
+  ```sh
+  ./gradlew clean run
+  ```
+
+  atau di Windows:
+
+  ```bat
+  .\gradlew clean run
+  ```
+
+- Setelah aplikasi berjalan, ikuti instruksi di layar untuk login atau registrasi
+
 
 ---
 
