@@ -117,14 +117,6 @@ src
 
 ![Keranjang](https://github.com/nurulmarisa8/all-project/blob/main/BEAUTRA/readme/Keranjang.png)
 
-## Lihat Keranjang (Buyer)
-
-![Checkout](https://github.com/nurulmarisa8/all-project/blob/main/BEAUTRA/readme/Checkout.png)
-
-## Lihat Keranjang (Buyer)
-
-![Checkout](https://github.com/nurulmarisa8/all-project/blob/main/BEAUTRA/readme/Checkout.png)
-
 ## Dashboard Penjualan (Seller)
 
 ![SellerDasbor](https://github.com/nurulmarisa8/all-project/blob/main/BEAUTRA/readme/SellerDasbor.png)
