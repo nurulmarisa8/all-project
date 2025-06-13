@@ -1,117 +1,102 @@
-# 💄 Beautra — Aplikasi E-Commerce JavaFX
+# 💄 Beautra — Beauty Aura E-Commerce JavaFX
 
-**Beautra** adalah aplikasi desktop e-commerce berbasis JavaFX yang menyediakan platform bagi pengguna untuk membeli dan menjual produk kecantikan. Aplikasi ini mendukung dua peran utama: **Pembeli (Buyer)** dan **Penjual (Seller)**, dengan fungsionalitas yang disesuaikan untuk masing-masing peran.
+**Beautra** (singkatan dari **Beauty Aura**) adalah aplikasi desktop e-commerce berbasis JavaFX yang menyediakan platform modern bagi pengguna untuk membeli dan menjual produk kecantikan. Aplikasi ini memiliki dua peran utama, yaitu **Pembeli (Buyer)** dan **Penjual (Seller)**, dengan tampilan serta fitur yang disesuaikan untuk masing-masing peran.
 
 ---
 
 ## 🚀 Fitur Utama
 
 ### 🔐 Fitur Umum
-- **Autentikasi Pengguna**: Sistem login dan registrasi dengan routing berdasarkan peran.
-- **Lupa Kata Sandi**: Fitur untuk menangani kasus kelupaan password.
-- **Logout**: Keluar dari sesi dan kembali ke halaman login.
+- **Login & Registrasi** — Pengguna bisa membuat akun, login, serta logout. Setelah login, aplikasi otomatis mengarahkan user ke halaman pembeli atau penjual sesuai peran.
+- **Lupa Password** — Membantu pengguna mengatur ulang kata sandi jika lupa.
+- **Routing Dinamis** — Pengalaman pengguna berbeda antara pembeli dan penjual.
 
 ### 🛍️ Fitur Pembeli (Buyer)
-- **Beranda Dinamis**: Tampilkan semua produk dalam layout grid interaktif.
-- **Pencarian & Filter**: Cari berdasarkan nama atau kategori produk.
-- **Detail Produk**: Informasi lengkap produk termasuk gambar, harga, dan deskripsi.
-- **Keranjang Belanja**:
-  - Tambah/hapus produk.
-  - Ubah kuantitas dan validasi stok.
-- **Checkout**:
-  - Isi detail pengiriman & pilih metode pembayaran.
-  - Update otomatis stok produk.
-- **Profil Pengguna**: Lihat detail akun seperti nama, email, dan alamat.
+- **Dashboard Produk** — Menampilkan semua produk dalam format grid yang menarik.
+- **Pencarian & Filter** — Cari produk berdasarkan nama atau kategori (SkinCare, BodyCare, Hair Care, Make Up).
+- **Detail Produk** — Melihat info detail produk: gambar, nama, harga, stok, deskripsi.
+- **Keranjang Belanja** — Tambahkan produk ke keranjang, ubah jumlah, hapus, serta validasi stok otomatis.
+- **Checkout** — Isi data pengiriman, pilih metode pembayaran, cek ringkasan pesanan, lalu buat pesanan (stok otomatis berkurang).
+- **Profil** — Melihat dan mengedit detail akun (nama, email, dll).
 
 ### 🧾 Fitur Penjual (Seller)
-- **Dasbor Penjual**: Kelola produk dan lihat daftar pesanan.
-- **Manajemen Produk**:
-  - Tambah, edit, dan hapus produk.
-  - Validasi input pada setiap aksi.
-- **Manajemen Pesanan**:
-  - Lihat dan pantau pesanan produk yang dijual.
+- **Dashboard Penjual** — Melihat daftar produk yang dijual dan pesanan yang masuk.
+- **Manajemen Produk** — Tambah, edit, atau hapus produk. Validasi input otomatis.
+- **Manajemen Pesanan** — Melihat detail pesanan, status, jumlah, dan data pembeli.
+
+### 🛠️ Utilities & Service
+- **AlertUtil** — Utility untuk menampilkan pop-up alert (informasi, error, konfirmasi) secara konsisten di seluruh aplikasi.
+- **JsonUtil** — Utility untuk memudahkan baca/tulis data ke file JSON (`users.json`, `products.json`, `orders.json`).
+- **ProductService & OrderService** — Pengelolaan data produk & order, CRUD, filtering, dsb.
 
 ---
 
 ## ⚙️ Cara Menjalankan Aplikasi
 
-### 1. ✅ Prasyarat
-- Java Development Kit (JDK) versi **11+**
-- JavaFX terinstal dan terkonfigurasi di IDE
-- Library eksternal:
-  - [`Gson`](https://github.com/google/gson) untuk pemrosesan JSON
+### 1. Prasyarat
+- **Java Development Kit (JDK) 11+**
+- **JavaFX** sudah terkonfigurasi di IDE
+- Library eksternal: [`Gson`](https://github.com/google/gson)
 
-### 2. 🗂️ Struktur Direktori
+### 2. Struktur Direktori
 ```
 src
 └── main
     ├── java
     │   ├── beautra
     │   │   └── MainApp.java
-    │   ├── controller
-    │   ├── model
-    │   ├── service
-    │   └── util
+    │   ├── controller        # Logic tampilan & aksi (Login, Dashboard, Produk, dsb.)
+    │   ├── model             # Data model (User, Product, Order)
+    │   ├── service           # Service untuk produk & order
+    │   └── util              # AlertUtil, JsonUtil, dsb.
     └── resources
         ├── css/
-        ├── data/
-        │   ├── users.json
-        │   ├── products.json
-        │   └── orders.json
-        ├── fxml/
+        ├── data/             # users.json, products.json, orders.json
+        ├── fxml/             # UI layout JavaFX
         └── images/
 ```
 
-### 3. ▶️ Menjalankan
-- Buka proyek di IDE (IntelliJ, Eclipse, VS Code, dll.)
+### 3. Menjalankan
+- Buka project di IDE (IntelliJ/Eclipse/VS Code, dll)
 - Jalankan file `MainApp.java`
-- Aplikasi akan menampilkan halaman login saat dimulai.
+- Ikuti instruksi di layar untuk login atau registrasi
 
 ---
 
-## 🧪 Tabel Pengujian Fitur
+## 🧪 Pengujian Fitur
 
 | No | Skenario Pengujian | Hasil Diharapkan | Status |
-|----|---------------------|------------------|--------|
-| **A. Login & Registrasi** ||| |
-| 1  | Login dengan akun pembeli | Masuk ke beranda pembeli | ✅ |
-| 2  | Login dengan akun penjual | Masuk ke dasbor penjual | ✅ |
-| 3  | Email atau password salah | Tidak login, tampilkan error | ✅ |
-| 4  | Form login kosong | Tidak berpindah halaman | ✅ |
-| 5  | Navigasi ke registrasi | Tampilkan form registrasi | ✅ |
-| 6  | Registrasi akun baru valid | Akun tersimpan & redirect ke login | ✅ |
-| **B. Fitur Pembeli** ||| |
-| 7  | Cari "Bath" | Tampilkan produk terkait | ✅ |
-| 8  | Filter kategori "BodyCare" | Tampilkan produk sesuai kategori | ✅ |
-| 9  | Tambah ke keranjang | Tampilkan kontrol kuantitas | ✅ |
-| 10 | Buka keranjang | Tampilkan dialog keranjang | ✅ |
-| 11 | Tambah kuantitas | Kuantitas bertambah | ✅ |
-| 12 | Kurangi kuantitas | Kuantitas berkurang | ✅ |
-| 13 | Kurangi sampai nol | Item terhapus dari keranjang | ✅ |
-| 14 | Checkout tanpa isi form | Tampilkan peringatan input kosong | ✅ |
-| 15 | Checkout lengkap | Pesanan dibuat & stok berkurang | ✅ |
-| 16 | Klik detail produk | Tampilkan popup informasi lengkap | ✅ |
-| **C. Fitur Penjual** ||| |
-| 17 | Tambah produk kosong | Validasi gagal & tampilkan pesan | ✅ |
-| 18 | Tambah produk valid | Produk muncul & tersimpan | ✅ |
-| 19 | Edit produk | Perubahan tersimpan & tampil | ✅ |
-| 20 | Hapus produk | Konfirmasi & hapus produk | ✅ |
-| 21 | Lihat pesanan masuk | Tampilkan pesanan terkait produk | ✅ |
-| 22 | Logout | Kembali ke halaman login | ✅ |
+|----|--------------------|------------------|--------|
+| **A. Login & Register** ||| |
+| 1 | Login pembeli (`123`/`123`) | Masuk dashboard pembeli | ✅ |
+| 2 | Login penjual (`456`/`123`) | Masuk dashboard penjual | ✅ |
+| 3 | Login salah | Tampil error, tidak masuk | ✅ |
+| 4 | Login kosong | Tidak ada aksi | ✅ |
+| 5 | Registrasi valid | Akun tersimpan & redirect login | ✅ |
+| **B. Buyer** ||| |
+| 6 | Cari produk | Grid hanya tampil hasil pencarian | ✅ |
+| 7 | Filter produk | Grid sesuai kategori | ✅ |
+| 8 | Tambah ke keranjang | Kontrol jumlah tampil | ✅ |
+| 9 | Edit/hapus keranjang | Update sesuai aksi | ✅ |
+| 10 | Checkout data kosong | Peringatan input wajib | ✅ |
+| 11 | Checkout valid | Order terekam & stok berkurang | ✅ |
+| **C. Seller** ||| |
+| 12 | Tambah produk valid | Produk baru muncul | ✅ |
+| 13 | Tambah produk kosong | Validasi error tampil | ✅ |
+| 14 | Edit produk | Update produk sukses | ✅ |
+| 15 | Hapus produk | Konfirmasi & hapus produk | ✅ |
+| 16 | Lihat pesanan | Tabel pesanan tampil | ✅ |
+| 17 | Logout | Kembali ke login | ✅ |
 
 ---
 
-## 🧰 Utilitas Pendukung
-- **`AlertUtil`**: Menyediakan tampilan alert standar untuk notifikasi, error, dan konfirmasi.
-- **`JsonUtil`**: Utility class untuk membaca dan menulis data JSON (produk, pengguna, pesanan) menggunakan `Gson`.
+## 🧑‍💻 Kontribusi & Pengembangan
 
----
-
-## 🧑‍💻 Kontribusi
-Kontribusi terbuka untuk perbaikan bug, penambahan fitur, atau peningkatan performa UI. Silakan lakukan pull request ke repository utama.
+Kontribusi sangat terbuka! Silakan pull request jika ingin menambah fitur, memperbaiki bug, atau memperbaiki UI.
 
 ---
 
 ## 📄 Lisensi
-Aplikasi ini dikembangkan sebagai proyek pembelajaran. Bebas digunakan dan dimodifikasi untuk keperluan edukasi.
+
+Proyek ini dikembangkan untuk keperluan edukasi. Bebas digunakan dan dimodifikasi selama untuk pembelajaran.
 
