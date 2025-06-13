@@ -95,7 +95,7 @@ src
 
 ## Halaman Login
 
-![Tampilan Halaman Login](C:\Users\nurul\Documents\GitHub\all-project\BEAUTRA\app\src\main\resources\images\readme\TampilanLogin.png)
+![Tampilan Halaman Login](BEAUTRA\app\src\main\resources\images\readme\TampilanLogin.png)
 
 ---
 
