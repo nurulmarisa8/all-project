@@ -59,13 +59,5 @@ public class LoginController {
         }
     }
 
-    @FXML
-    private void handleForgotPassword() {
-        String email = emailField.getText();
-        if (email == null || email.isEmpty()) {
-            util.AlertUtil.showInfo("Masukkan email Anda terlebih dahulu.");
-            return;
-        }
-    }
 }
 

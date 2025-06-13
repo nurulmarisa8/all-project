@@ -40,7 +40,7 @@
                 <HBox alignment="BASELINE_LEFT">
                     <Label text="Password" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
                     <Region HBox.hgrow="ALWAYS" />
-                    <Hyperlink onAction="#handleForgotPassword" style="-fx-text-fill: #ff6666; -fx-border-color: transparent; -fx-font-size: 12px;" text="Forgot Password?" />
+
                 </HBox>
                 <StackPane>
                      <PasswordField fx:id="passwordField" promptText="Enter your password" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #e0e0e0; -fx-background-color: #f7f7f7; -fx-padding: 10px 10px 10px 40px;"/>
