@@ -1,14 +1,3 @@
-Tentu, ini adalah konten lengkap yang bisa Anda salin langsung dan simpan sebagai file `README.md`.
-
----
-
-### Petunjuk:
-1.  Buat file baru di direktori utama proyek Anda.
-2.  Beri nama file tersebut `README.md`.
-3.  Salin semua teks di bawah ini dan tempelkan ke dalam file `README.md` tersebut.
-
----
-
 ````markdown
 # Proyek Aplikasi E-Commerce "Beautra"
 
