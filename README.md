@@ -149,12 +149,6 @@ src
 
 ---
 
-## 🧑‍💻 Kontribusi & Pengembangan
-
-Kontribusi sangat terbuka! Silakan pull request jika ingin menambah fitur, memperbaiki bug, atau memperbaiki UI.
-
----
-
 ## 📄 Lisensi
 
 Proyek ini dikembangkan untuk keperluan edukasi. Bebas digunakan dan dimodifikasi selama untuk pembelajaran.
