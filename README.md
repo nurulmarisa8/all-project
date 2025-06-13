@@ -115,7 +115,7 @@ src
 
 ## Checkout / Pembelian (Buyer)
 
-![Keranjang](https://github.com/nurulmarisa8/all-project/blob/main/BEAUTRA/readme/Keranjang.png)
+![Checkout](https://github.com/nurulmarisa8/all-project/blob/main/BEAUTRA/readme/Checkout.png)
 
 ## Dashboard Penjualan (Seller)
 
