@@ -1,78 +1,24 @@
 [
   {
-    "id": "P-626F9067",
-    "name": "Lavojoy Let It Glow Body Serum Skin Brightening",
-    "category": "SkinCare",
-    "brand": "",
-    "description": "SANGAT BAGUS UNTUK ORANG MUDA",
-    "image": "/images/Lavojoy Let It Glow Body Serum Skin Brightening.png",
-    "sellerId": "USR-E264F876",
-    "price": 100000.0,
-    "stock": 7
-  },
-  {
-    "id": "P-BEA108BB",
+    "id": "P-66133CAD",
     "name": "Bath and Body Works",
     "category": "BodyCare",
     "brand": "",
-    "description": "SANGAT BAGUS UNTUK ORANG MUDA",
+    "description": "produk bagus",
     "image": "/images/Bath and Body Works.jpg",
     "sellerId": "USR-E264F876",
-    "price": 75000.0,
-    "stock": 18
+    "price": 100000.0,
+    "stock": 200
   },
   {
-    "id": "P-3F7CB91F",
+    "id": "P-433AC243",
     "name": "Love Beauty \u0026 Planet",
     "category": "BodyCare",
     "brand": "",
-    "description": "SANGAT BAIK UNTUK ORANG TUA",
+    "description": "baugs banget",
     "image": "/images/Love Beauty \u0026 Planet.png",
     "sellerId": "USR-E264F876",
-    "price": 50000.0,
-    "stock": 99
-  },
-  {
-    "id": "P-D25E3805",
-    "name": "Scarlett Whitening",
-    "category": "BodyCare",
-    "brand": "",
-    "description": "ARTIS JUGA PAKE INI !! ",
-    "image": "/images/Scarlett Whitening.jpg",
-    "sellerId": "USR-E264F876",
-    "price": 100000.0,
-    "stock": 199
-  },
-  {
-    "id": "P-078CA112",
-    "name": "Shinzui",
-    "brand": "",
-    "description": "KOREA ASLI INI MAH ! \nMURAH PULA",
-    "image": "/images/Shinzui.jpg",
-    "sellerId": "USR-E264F876",
-    "price": 20000.0,
-    "stock": 500
-  },
-  {
-    "id": "P-4434BD65",
-    "name": "Maybelline SuperStay Matte Ink Liquid Lipstick",
-    "category": "Make Up",
-    "brand": "",
-    "description": "sangat merah menyala ",
-    "image": "/images/Maybelline SuperStay Matte Ink Liquid Lipstick.png",
-    "sellerId": "USR-E264F876",
-    "price": 78000.0,
-    "stock": 20
-  },
-  {
-    "id": "P-CC95605E",
-    "name": "Bioaqua Olive Hair Mask",
-    "category": "Hair Care",
-    "brand": "",
-    "description": "LANGSUNG TUMBUH RAMBUT KALO BOTAK",
-    "image": "/images/Bioaqua Olive Hair Mask.jpg",
-    "sellerId": "USR-E264F876",
-    "price": 70000.0,
-    "stock": 75
+    "price": 25000.0,
+    "stock": 1000
   }
 ]

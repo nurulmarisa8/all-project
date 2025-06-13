@@ -37,16 +37,35 @@ public class HomeController {
     @FXML private Button cartIconBtn;
     @FXML private Button logoutBtn;
 
+    // Instance statis untuk memungkinkan akses dari controller lain
+    private static HomeController instance;
+
     private final ProductService productService = new ProductService();
     private List<Product> allProducts;
     private final List<CartItem> cart = new ArrayList<>();
 
     @FXML
     public void initialize() {
+        // Inisialisasi instance statis
+        instance = this;
+
         allProducts = productService.getAllProducts();
         searchField.textProperty().addListener((obs, oldV, newV) -> searchProducts(newV));
         showProducts(allProducts);
         setActiveCategory(forYouBtn);
+    }
+
+    public static HomeController getInstance() {
+        return instance;
+    }
+
+    /**
+     * Metode ini sekarang hanya bertugas memuat ulang data produk dari sumbernya
+     * dan menampilkan ulang ke UI. Pengosongan keranjang dipisahkan.
+     */
+    public void refreshProducts() {
+        allProducts = productService.getAllProducts();
+        showProducts(allProducts);
     }
 
     private void searchProducts(String searchText) {
@@ -70,9 +89,6 @@ public class HomeController {
         }
     }
 
-    // ===================================================================
-    // PERUBAHAN UTAMA ADA DI SINI: MEMBUAT KONTROL JUMLAH INTERAKTIF
-    // ===================================================================
     private VBox createProductCard(Product product) {
         VBox card = new VBox(8);
         card.setPrefWidth(180);
@@ -109,8 +125,6 @@ public class HomeController {
         Label stockLabel = new Label("Stok: " + product.getStock());
         stockLabel.setStyle("-fx-text-fill: #666666; -fx-font-size: 11px;");
 
-        // --- KONTROL KERANJANG BARU ---
-        
         Button addToCartBtn = new Button("+ Keranjang");
         addToCartBtn.setStyle("-fx-background-color: #ff6666; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-size: 11px; -fx-cursor: hand;");
         addToCartBtn.setPrefWidth(150);
@@ -199,7 +213,6 @@ public class HomeController {
         });
     }
     
-    // --- Sisa kode tidak ada perubahan ---
     @FXML private void onForYou() { setActiveCategory(forYouBtn); showProducts(allProducts); }
     @FXML private void onSkinCare() { filterByCategory("SkinCare", skinCareBtn); }
     @FXML private void onBodyCare() { filterByCategory("BodyCare", bodyCareBtn); }
@@ -240,6 +253,8 @@ public class HomeController {
             stage.setTitle("Keranjang Belanja");
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
+            // --- PERUBAHAN: Refresh halaman utama saat keranjang ditutup ---
+            stage.setOnHidden(e -> refreshProducts());
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -251,11 +266,22 @@ public class HomeController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/checkout.fxml"));
             Parent root = loader.load();
             CheckoutController checkoutController = loader.getController();
-            checkoutController.checkout(cart, MainApp.currentUser.getId());
+            // Penting: kita membuat salinan keranjang untuk checkout, sehingga keranjang asli tidak terpengaruh sampai checkout selesai.
+            checkoutController.checkout(new ArrayList<>(cart), MainApp.currentUser.getId());
+            
             Stage stage = new Stage();
             stage.setTitle("Checkout");
             stage.setScene(new Scene(root));
+            
+            // --- PERBAIKAN UTAMA: Refresh & kosongkan keranjang setelah checkout ---
+            stage.setOnHidden(e -> {
+                refreshProducts(); // 1. Update stok produk dari file
+                cart.clear();      // 2. Kosongkan keranjang belanja
+                refreshProducts(); // 3. Refresh sekali lagi untuk update tampilan tombol
+            });
+
             stage.show();
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -278,16 +304,30 @@ public class HomeController {
         }
     }
 
+    /**
+     * Metode ini telah diperbarui untuk mengirimkan data produk DAN keranjang
+     * ke ProductDetailController.
+     * @param product Produk yang akan ditampilkan.
+     */
     private void showProductDetail(Product product) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/product_detail.fxml"));
             Parent root = loader.load();
+
+            // --- PERUBAHAN UTAMA DI SINI ---
             ProductDetailController controller = loader.getController();
-            controller.setProductDetails(product);
+            // Mengirimkan objek produk dan juga referensi ke keranjang belanja saat ini
+            controller.initializeDetails(product, this.cart);
+            
             Stage detailStage = new Stage();
             detailStage.setTitle("Detail Produk: " + product.getName());
             detailStage.setScene(new Scene(root));
             detailStage.initModality(Modality.APPLICATION_MODAL);
+            
+            // Menambahkan listener agar saat jendela detail ditutup, halaman utama di-refresh
+            // untuk menyinkronkan status keranjang.
+            detailStage.setOnHidden(e -> refreshProducts());
+            
             detailStage.show();
         } catch (IOException e) {
             e.printStackTrace();

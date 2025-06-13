@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 public class SellerDashboardController {
 
     //======================================================================
-    // 1. DEKLARASI FXML DAN SERVICE (Tidak ada perubahan)
+    // 1. DEKLARASI FXML DAN SERVICE
     //======================================================================
 
     @FXML private ListView<Product> productList;
@@ -48,9 +48,8 @@ public class SellerDashboardController {
     
     private static File lastOpenedDirectory;
 
-
     //======================================================================
-    // 2. INISIALISASI (Tidak ada perubahan)
+    // 2. INISIALISASI
     //======================================================================
 
     @FXML
@@ -78,7 +77,7 @@ public class SellerDashboardController {
     }
 
     //======================================================================
-    // 3. LOGIKA MEMUAT DATA (Tidak ada perubahan)
+    // 3. LOGIKA MEMUAT DATA
     //======================================================================
 
     private void loadSellerProducts() {
@@ -113,7 +112,7 @@ public class SellerDashboardController {
     }
     
     //======================================================================
-    // 4. DIALOG TAMBAH & EDIT (PERUBAHAN UTAMA DI SINI)
+    // 4. DIALOG TAMBAH & EDIT
     //======================================================================
 
     @FXML
@@ -122,14 +121,12 @@ public class SellerDashboardController {
         dialog.setTitle("Tambah Produk Baru");
         dialog.setHeaderText("Masukkan detail produk yang akan ditambahkan.");
 
-        // PERBAIKAN: Menghubungkan dialog dengan CSS
         dialog.getDialogPane().getStylesheets().add(getClass().getResource("/css/seller-style.css").toExternalForm());
         dialog.getDialogPane().getStyleClass().add("custom-dialog");
 
         ButtonType saveButtonType = new ButtonType("Simpan", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
     
-        // PERBAIKAN: Memberi gaya pada tombol dialog
         Button saveButton = (Button) dialog.getDialogPane().lookupButton(saveButtonType);
         saveButton.getStyleClass().add("dialog-save-button");
         Button cancelButton = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
@@ -142,28 +139,28 @@ public class SellerDashboardController {
 
         TextField nameField = new TextField();
         nameField.setPromptText("Nama Produk");
-        nameField.getStyleClass().add("form-input"); // PERBAIKAN: Menambah style class
+        nameField.getStyleClass().add("form-input");
 
         ComboBox<String> categoryComboBox = new ComboBox<>();
         categoryComboBox.getItems().addAll("SkinCare", "BodyCare", "Hair Care", "Make Up");
         categoryComboBox.setPromptText("Pilih Kategori");
-        categoryComboBox.getStyleClass().add("form-input"); // PERBAIKAN: Menambah style class
+        categoryComboBox.getStyleClass().add("form-input");
         
         TextArea descriptionArea = new TextArea();
         descriptionArea.setPromptText("Deskripsi Produk");
         descriptionArea.setWrapText(true);
-        descriptionArea.getStyleClass().add("form-input"); // PERBAIKAN: Menambah style class
+        descriptionArea.getStyleClass().add("form-input");
 
         TextField priceField = new TextField();
         priceField.setPromptText("Harga");
-        priceField.getStyleClass().add("form-input"); // PERBAIKAN: Menambah style class
+        priceField.getStyleClass().add("form-input");
 
         TextField stockField = new TextField();
         stockField.setPromptText("Stok");
-        stockField.getStyleClass().add("form-input"); // PERBAIKAN: Menambah style class
+        stockField.getStyleClass().add("form-input");
 
         Button chooseImageBtn = new Button("Pilih Gambar...");
-        chooseImageBtn.getStyleClass().add("edit-button"); // PERBAIKAN: Menggunakan style class yang ada
+        chooseImageBtn.getStyleClass().add("edit-button");
         Label imagePathLabel = new Label("Belum ada gambar dipilih.");
         HBox imageBox = new HBox(10, chooseImageBtn, imagePathLabel);
         imageBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
@@ -201,19 +198,36 @@ public class SellerDashboardController {
 
         dialog.getDialogPane().setContent(grid);
 
-        // Logika konversi hasil dialog (tidak berubah)
+        // --- PERUBAHAN UTAMA UNTUK VALIDASI ---
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == saveButtonType) {
+                
+                // 1. Validasi semua input tidak boleh kosong
+                if (nameField.getText().trim().isEmpty() ||
+                    descriptionArea.getText().trim().isEmpty() ||
+                    priceField.getText().trim().isEmpty() ||
+                    stockField.getText().trim().isEmpty()) {
+                    AlertUtil.showInfo("Semua kolom wajib diisi!");
+                    return null; // Mencegah dialog tertutup
+                }
+
+                // 2. Validasi spesifik untuk kategori
+                String category = categoryComboBox.getValue();
+                if (category == null || category.trim().isEmpty()) {
+                    AlertUtil.showInfo("Kategori wajib dipilih!");
+                    return null; // Mencegah dialog tertutup
+                }
+                
                 try {
                     String id = "P-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
                     return new Product(
-                        id, nameField.getText(), categoryComboBox.getValue(), "", 
+                        id, nameField.getText(), category, "", 
                         descriptionArea.getText(), Double.parseDouble(priceField.getText()), 
                         Integer.parseInt(stockField.getText()), imagePathLabel.getText(), 
                         MainApp.currentUser.getId()
                     );
                 } catch (NumberFormatException e) {
-                    AlertUtil.showInfo("Input harga atau stok tidak valid!");
+                    AlertUtil.showInfo("Input harga atau stok tidak valid! Harap masukkan angka.");
                     return null;
                 }
             }
@@ -239,14 +253,12 @@ public class SellerDashboardController {
         dialog.setTitle("Edit Produk");
         dialog.setHeaderText("Edit detail produk.");
 
-        // PERBAIKAN: Menghubungkan dialog dengan CSS
         dialog.getDialogPane().getStylesheets().add(getClass().getResource("/css/seller-style.css").toExternalForm());
         dialog.getDialogPane().getStyleClass().add("custom-dialog");
 
         ButtonType saveButtonType = new ButtonType("Simpan", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
         
-        // PERBAIKAN: Memberi gaya pada tombol dialog
         Button saveButton = (Button) dialog.getDialogPane().lookupButton(saveButtonType);
         saveButton.getStyleClass().add("dialog-save-button");
         Button cancelButton = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
@@ -314,12 +326,29 @@ public class SellerDashboardController {
 
         dialog.getDialogPane().setContent(grid);
 
-        // Logika konversi hasil dialog (tidak berubah)
+        // --- PERUBAHAN UTAMA UNTUK VALIDASI ---
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == saveButtonType) {
+
+                // 1. Validasi semua input tidak boleh kosong
+                if (nameField.getText().trim().isEmpty() ||
+                    descriptionArea.getText().trim().isEmpty() ||
+                    priceField.getText().trim().isEmpty() ||
+                    stockField.getText().trim().isEmpty()) {
+                    AlertUtil.showInfo("Semua kolom wajib diisi!");
+                    return null; // Mencegah dialog tertutup
+                }
+
+                // 2. Validasi spesifik untuk kategori
+                String category = categoryComboBox.getValue();
+                if (category == null || category.trim().isEmpty()) {
+                    AlertUtil.showInfo("Kategori wajib dipilih!");
+                    return null; // Mencegah dialog tertutup
+                }
+
                 try {
                     selectedProduct.setName(nameField.getText());
-                    selectedProduct.setCategory(categoryComboBox.getValue());
+                    selectedProduct.setCategory(category);
                     selectedProduct.setBrand("");
                     selectedProduct.setDescription(descriptionArea.getText());
                     selectedProduct.setPrice(Double.parseDouble(priceField.getText()));
@@ -327,7 +356,7 @@ public class SellerDashboardController {
                     selectedProduct.setImage(imagePathLabel.getText());
                     return selectedProduct;
                 } catch (NumberFormatException e) {
-                     AlertUtil.showInfo("Input harga atau stok tidak valid!");
+                     AlertUtil.showInfo("Input harga atau stok tidak valid! Harap masukkan angka.");
                      return null;
                 }
             }
@@ -343,7 +372,7 @@ public class SellerDashboardController {
     }
 
     //======================================================================
-    // 5. METODE LAINNYA (Tidak ada perubahan)
+    // 5. METODE LAINNYA
     //======================================================================
 
     @FXML
